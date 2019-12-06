@@ -1,0 +1,60 @@
+#日志配置
+logging:
+  level:
+    com.anxhit: debug #不同目录下的日志可配置不同级别
+  file: usr/app/log/app.log
+
+spring:
+  application:
+    name: 楚云健康-预约挂号
+  datasource:
+    driverClassName: com.mysql.jdbc.Driver
+    url: ${anxhit.db.url}
+    username: ${anxhit.db.username}
+    password: ${anxhit.db.password}
+
+    # 使用druid数据源
+    type: com.alibaba.druid.pool.DruidDataSource
+    filters: stat
+    maxActive: 20
+    initialSize: 1
+    maxWait: 60000
+    minIdle: 1
+    timeBetweenEvictionRunsMillis: 60000
+    minEvictableIdleTimeMillis: 300000
+    validationQuery: select 'x'
+    testWhileIdle: true
+    testOnBorrow: false
+    testOnReturn: false
+    poolPreparedStatements: true
+    maxOpenPreparedStatements: 20
+  profiles:
+    active: "@profiles.active@"
+
+server:
+  port: ${anxhit.server.port}
+  servlet: 
+    context-path: ${anxhit.server.context-path}
+
+
+# 配置swagger
+swagger:
+  enabled: ${anxhit.swagger.enabled}
+  title: cty
+  version: 1.0.0.SNAPSHOT
+  description: 后端服务
+  contact:
+    name: cty
+  docket:
+    cty-health:
+      base-package: com.zhanghu.admin
+  authorization:
+    key-name: Authorization
+
+management:
+  endpoints:
+    web:
+      exposure:
+        include: '*'
+  security:
+    enabled: false
