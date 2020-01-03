@@ -19,7 +19,7 @@ import com.anxhit.fw.core.result.ResultDTO;
 import com.zhanghu.admin.utils.UrlUtils;
 
 /**
- * (用一句话描述该类/接口作用)
+ * （武汉）房天下数据查询
  * 创建人:OnlyTiger
  * 时间：2019年11月25日-下午5:51:24 
  * @version 1.0.0 
@@ -46,10 +46,20 @@ public class FangService {
 		String urlContent = UrlUtils.getURLContent(url);
 		System.out.println("urlContent:" + urlContent);
 
-		Document doc;
+		Document doc = null;
 		try {
 			doc = Jsoup.connect("http://www.baidu.com/").get();
 			String title = doc.title();
+
+			System.out.println("--------------1------------");
+			System.out.println(doc.body().child(0));
+			System.out.println("--------------2------------");
+
+//			for (int i = 0; i < 20; i++) {
+////				doc.body().child(i);
+//				System.out.println(doc.body().child(i));
+//			}
+
 			Attributes attributes = doc.attributes();
 			System.out.println("title:" + title);
 			System.out.println("attributes:" + attributes);
@@ -60,9 +70,28 @@ public class FangService {
 
 		resultDTO.setCode(0);
 		resultDTO.setData(urlContent);
+//		resultDTO.setData(doc);
 		resultDTO.setMsg("返回结果");
 
 		return resultDTO;
+
+	}
+
+	public static <V> void main(String[] args) {
+
+		String html = "<html><head><title>First parse</title></head>"
+				+ "<body><p>Parsed HTML into a doc.</p></body></html>";
+
+		Document doc = Jsoup.parse(html);
+		System.out.println("doc:" + doc);
+		System.out.println("----------------------------------------------1");
+		System.out.println("title:" + doc.getElementsByAttribute("title"));// 空
+		System.out.println("body:" + doc.getElementsByAttribute("body"));// 空
+		System.out.println("----------------------------------------------2");
+		System.out.println("title2:" + doc.title());
+		System.out.println("data:" + doc.data());// 空
+		System.out.println("html:" + doc.html());
+		System.out.println("codePointAt:" + doc.html().codePointAt(0));// 60
 
 	}
 
